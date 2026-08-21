@@ -158,6 +158,9 @@ export default function Signup() {
           data: {
             display_name: nickname,
             full_name: nickname,
+            bio,
+            skills: techStacks,
+            is_public: Boolean(isPublic),
           },
         },
       });
@@ -207,23 +210,23 @@ export default function Signup() {
 
       // 3. Profiles 테이블에 사용자 정보 저장
       // (profiles 테이블의 INSERT/UPSERT RLS 정책도 anon 허용 필요)
-      const profileRow = {
-        user_id: userId,
-        user_name: nickname,
-        avatar_path: avatarPath,
-        bio: bio || null,
-        skills: techStacks,
-        is_public: Boolean(isPublic),
-        email: email,
-        profile_view: 0,
-      };
+      // const profileRow = {
+      //   user_id: userId,
+      //   user_name: nickname,
+      //   avatar_path: avatarPath,
+      //   bio: bio || null,
+      //   skills: techStacks,
+      //   is_public: Boolean(isPublic),
+      //   email: email,
+      //   profile_view: 0,
+      // };
 
-      const { error: profileError } = await supabase.from("profiles").upsert(profileRow, { onConflict: "user_id" });
+      // const { error: profileError } = await supabase.from("profiles").upsert(profileRow, { onConflict: "user_id" });
 
-      if (profileError) {
-        console.error("프로필 저장 상세 에러:", profileError.message);
-        throw profileError;
-      }
+      // if (profileError) {
+      //   console.error("프로필 저장 상세 에러:", profileError.message);
+      //   throw profileError;
+      // }
 
       // 4. 회원가입 완료 안내 후 로그인 페이지로 이동 (기획 의도)
 
